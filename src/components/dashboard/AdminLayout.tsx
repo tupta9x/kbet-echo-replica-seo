@@ -4,7 +4,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Menu, X, LayoutGrid, Home, LogOut, Users, Tag } from 'lucide-react';
+import { Menu, X, LayoutGrid, Home, LogOut, Users, Tag, Settings, Search, Database, Code } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
 
 export const AdminLayout = () => {
@@ -18,6 +18,9 @@ export const AdminLayout = () => {
   };
 
   const handleLogout = () => {
+    // Clear admin role
+    localStorage.removeItem('userRole');
+    
     toast({
       title: "Logged out",
       description: "You have been logged out successfully",
@@ -40,6 +43,21 @@ export const AdminLayout = () => {
       label: 'Categories',
       path: '/admin/categories',
       icon: <Tag size={20} />
+    },
+    { 
+      label: 'SEO Management',
+      path: '/admin/seo',
+      icon: <Search size={20} />
+    },
+    { 
+      label: 'Game Import Tools',
+      path: '/admin/tools',
+      icon: <Database size={20} />
+    },
+    { 
+      label: 'Settings',
+      path: '/admin/settings',
+      icon: <Settings size={20} />
     },
     { 
       label: 'Users',

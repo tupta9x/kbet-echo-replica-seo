@@ -12,6 +12,10 @@ import AdminGames from "./pages/AdminGames";
 import AdminCategories from "./pages/AdminCategories";
 import AdminLayout from "./components/dashboard/AdminLayout";
 import Layout from "./components/Layout";
+import AdminSEO from "./pages/AdminSEO";
+import AdminSettings from "./pages/AdminSettings";
+import AdminTools from "./pages/AdminTools";
+import { AdminAuthMiddleware } from "./middlewares/AdminAuthMiddleware";
 
 const App = () => {
   // Create a client
@@ -29,11 +33,14 @@ const App = () => {
               <Route path="game/:gameId" element={<GameDetail />} />
             </Route>
             
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
+            {/* Admin Routes - Protected with AdminAuthMiddleware */}
+            <Route path="/admin" element={<AdminAuthMiddleware><AdminLayout /></AdminAuthMiddleware>}>
               <Route index element={<Admin />} />
               <Route path="games" element={<AdminGames />} />
               <Route path="categories" element={<AdminCategories />} />
+              <Route path="seo" element={<AdminSEO />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="tools" element={<AdminTools />} />
             </Route>
             
             <Route path="*" element={<NotFound />} />
