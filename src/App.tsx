@@ -10,6 +10,7 @@ import Admin from "./pages/Admin";
 import AdminGames from "./pages/AdminGames";
 import AdminCategories from "./pages/AdminCategories";
 import AdminLayout from "./components/dashboard/AdminLayout";
+import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Index />} />
+          </Route>
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>

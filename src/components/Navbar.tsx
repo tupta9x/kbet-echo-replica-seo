@@ -27,7 +27,7 @@ export const Navbar = () => {
             {/* Promotion Button */}
             <div className="hidden md:flex items-center ml-4">
               <Button variant="ghost" className="text-white flex items-center gap-2 hover:bg-purple-800/20">
-                <span className="text-pink-400">🎁</span> Khuyến mãi
+                <span className="text-pink-400">🎁</span> Promotions
               </Button>
             </div>
 
@@ -42,7 +42,7 @@ export const Navbar = () => {
               <div className="flex items-center">
                 <Input
                   type="text"
-                  placeholder="Tên đăng nhập"
+                  placeholder="Username"
                   className="bg-gray-800/50 border border-gray-700 rounded-md h-9 text-sm w-32 md:w-auto"
                 />
               </div>
@@ -50,7 +50,7 @@ export const Navbar = () => {
               <div className="flex items-center">
                 <Input
                   type="password"
-                  placeholder="Mật khẩu"
+                  placeholder="Password"
                   className="bg-gray-800/50 border border-gray-700 rounded-md h-9 text-sm w-32 md:w-auto"
                 />
               </div>
@@ -58,13 +58,13 @@ export const Navbar = () => {
               <Button 
                 className="bg-[#444] hover:bg-gray-600 text-white rounded-md h-9 px-4"
               >
-                Đăng nhập
+                Login
               </Button>
 
               <Button 
                 className="bg-purple-600 hover:bg-purple-700 text-white rounded-md h-9 px-4"
               >
-                Đăng ký
+                Register
               </Button>
             </div>
           </div>
@@ -72,20 +72,20 @@ export const Navbar = () => {
       </header>
 
       {/* Main navigation */}
-      <nav className="bg-purple-700 text-white py-3">
+      <nav className="bg-purple-900 text-white py-3">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-4 overflow-x-auto whitespace-nowrap">
-            <NavItem icon="⚽" label="THỂ THAO" />
+            <NavItem icon="⚽" label="SPORTS" />
             <NavItem icon="🎭" label="LIVE CASINO" />
-            <NavItem icon="🎲" label="QUAY SỐ" />
+            <NavItem icon="🎲" label="LOTTERY" />
             <NavItem icon="🎯" label="TABLE GAMES" />
-            <NavItem icon="💰" label="NỔ HŨ" />
-            <NavItem icon="🃏" label="GAME BÀI" />
-            <NavItem icon="🎟️" label="LÔ ĐỀ" />
-            <NavItem icon="🐟" label="BẮN CÁ" />
+            <NavItem icon="💰" label="JACKPOT" />
+            <NavItem icon="🃏" label="CARD GAMES" />
+            <NavItem icon="🎟️" label="LOTTO" />
+            <NavItem icon="🐟" label="FISHING" />
             <NavItem icon="🎰" label="SLOTS" />
-            <NavItem icon="⚡" label="GAME NHANH" />
-            <NavItem icon="🎮" label="ĐÁ GÀ" />
+            <NavItem icon="⚡" label="QUICK GAMES" />
+            <NavItem icon="🎮" label="COCKFIGHT" />
           </div>
         </div>
       </nav>

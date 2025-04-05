@@ -19,7 +19,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0f0f1b] text-white">
+    <div className="bg-[#0f0f1b] text-white">
       {/* Hero Section with Table Games Banner */}
       <Hero />
       
