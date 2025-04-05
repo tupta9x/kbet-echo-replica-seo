@@ -5,10 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
+import SearchPopup from './SearchPopup';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { toast } = useToast();
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
 
   return (
     <>
@@ -34,7 +40,13 @@ export const Navbar = () => {
             {/* Search and Auth */}
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Button size="icon" variant="ghost" className="rounded-full bg-gray-800/50 text-gray-400">
+                <Button 
+                  size="icon" 
+                  variant="ghost" 
+                  className="rounded-full bg-gray-800/50 text-gray-400 hover:bg-gray-700/70"
+                  onClick={toggleSearch}
+                  aria-label="Search"
+                >
                   <Search className="h-4 w-4" />
                 </Button>
               </div>
@@ -89,6 +101,12 @@ export const Navbar = () => {
           </div>
         </div>
       </nav>
+      
+      {/* Search Popup */}
+      <SearchPopup 
+        open={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
+      />
     </>
   );
 };
