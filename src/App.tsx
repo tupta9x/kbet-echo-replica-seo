@@ -13,32 +13,35 @@ import AdminCategories from "./pages/AdminCategories";
 import AdminLayout from "./components/dashboard/AdminLayout";
 import Layout from "./components/Layout";
 
-const queryClient = new QueryClient();
+const App = () => {
+  // Create a client
+  const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Index />} />
-            <Route path="game/:gameId" element={<GameDetail />} />
-          </Route>
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Admin />} />
-            <Route path="games" element={<AdminGames />} />
-            <Route path="categories" element={<AdminCategories />} />
-          </Route>
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Index />} />
+              <Route path="game/:gameId" element={<GameDetail />} />
+            </Route>
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Admin />} />
+              <Route path="games" element={<AdminGames />} />
+              <Route path="categories" element={<AdminCategories />} />
+            </Route>
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
