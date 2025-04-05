@@ -1,97 +1,113 @@
 
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Youtube, Shield, Award, CreditCard } from 'lucide-react';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-kbet-darker text-white pt-12 pb-6 border-t border-kbet-secondary/20">
+    <footer className="bg-[#0f0f1b] text-white pt-12 pb-6 border-t border-gray-800">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {/* About Column */}
-          <div>
-            <h3 className="text-xl font-bold text-kbet-gold mb-4">About KBET</h3>
-            <p className="text-gray-300 mb-4">
-              KBET offers a premium online gambling experience with a wide range of casino games,
-              sports betting, live dealers, and exciting promotions. Licensed and regulated for fair play.
+        {/* Company info */}
+        <div className="mb-8 flex items-start gap-4">
+          <div className="text-4xl font-bold">
+            <span className="text-purple-500">K</span>
+            <span className="text-white">BET</span>
+          </div>
+          <div className="text-gray-300">
+            <h2 className="text-xl font-bold mb-4">KBET – Nền Tảng Cá Cược Trực Tuyến Hàng Đầu Việt Nam</h2>
+            <p className="text-sm text-gray-400">
+              KBET cung cấp đa dạng lựa chọn cá cược với các sảnh Thể Thao hấp dẫn, Tài Xỉu xanh chín và Live Casino đẳng cấp. Với tỷ lệ cược cao, phương thức nạp rút tinh hoạt và dịch vụ chăm sóc khách hàng 24/7, KBET hứa hẹn mang đến trải nghiệm cá cược tuyệt vời. Đăng ký ngay để nhận ưu đãi hấp dẫn!
             </p>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-kbet-gold">
-                <Facebook size={20} />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-kbet-gold">
-                <Twitter size={20} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-kbet-gold">
-                <Instagram size={20} />
-              </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-kbet-gold">
-                <Youtube size={20} />
-              </a>
-            </div>
-          </div>
-
-          {/* Casino Games Column */}
-          <div>
-            <h3 className="text-xl font-bold text-kbet-gold mb-4">Casino Games</h3>
-            <ul className="space-y-2">
-              <li><Link to="/category/slots" className="text-gray-300 hover:text-kbet-gold">Slots</Link></li>
-              <li><Link to="/category/table-games" className="text-gray-300 hover:text-kbet-gold">Table Games</Link></li>
-              <li><Link to="/category/live-casino" className="text-gray-300 hover:text-kbet-gold">Live Casino</Link></li>
-              <li><Link to="/category/jackpot" className="text-gray-300 hover:text-kbet-gold">Jackpot Games</Link></li>
-              <li><Link to="/category/new-games" className="text-gray-300 hover:text-kbet-gold">New Games</Link></li>
-            </ul>
-          </div>
-
-          {/* Important Links Column */}
-          <div>
-            <h3 className="text-xl font-bold text-kbet-gold mb-4">Important Links</h3>
-            <ul className="space-y-2">
-              <li><Link to="/about" className="text-gray-300 hover:text-kbet-gold">About Us</Link></li>
-              <li><Link to="/terms" className="text-gray-300 hover:text-kbet-gold">Terms & Conditions</Link></li>
-              <li><Link to="/privacy" className="text-gray-300 hover:text-kbet-gold">Privacy Policy</Link></li>
-              <li><Link to="/responsible-gambling" className="text-gray-300 hover:text-kbet-gold">Responsible Gambling</Link></li>
-              <li><Link to="/faq" className="text-gray-300 hover:text-kbet-gold">FAQ</Link></li>
-            </ul>
-          </div>
-
-          {/* Trust & Security Column */}
-          <div>
-            <h3 className="text-xl font-bold text-kbet-gold mb-4">Trust & Security</h3>
-            <div className="flex items-center mb-4">
-              <Shield className="h-5 w-5 mr-2 text-kbet-gold" />
-              <span className="text-gray-300">Licensed & Regulated</span>
-            </div>
-            <div className="flex items-center mb-4">
-              <Award className="h-5 w-5 mr-2 text-kbet-gold" />
-              <span className="text-gray-300">Fair Gaming Certified</span>
-            </div>
-            <div className="flex items-center">
-              <CreditCard className="h-5 w-5 mr-2 text-kbet-gold" />
-              <span className="text-gray-300">Secure Payments</span>
-            </div>
           </div>
         </div>
 
-        {/* Payment Methods */}
-        <div className="border-t border-kbet-secondary/30 py-6">
-          <h4 className="text-lg font-semibold text-kbet-gold mb-4 text-center">Payment Methods</h4>
-          <div className="flex flex-wrap justify-center gap-4">
-            {['Visa', 'Mastercard', 'Skrill', 'Neteller', 'Bitcoin', 'Bank Transfer'].map((method) => (
-              <div key={method} className="bg-kbet-dark py-2 px-4 rounded">
-                {method}
-              </div>
-            ))}
+        {/* Footer links */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4">THỂ THAO</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li><Link to="/" className="hover:text-white">Lịch thi đấu</Link></li>
+              <li><Link to="/" className="hover:text-white">Cược thể thao</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4">TRÒ CHƠI</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li><Link to="/" className="hover:text-white">Table games</Link></li>
+              <li><Link to="/" className="hover:text-white">Slots</Link></li>
+              <li><Link to="/" className="hover:text-white">Nổ hũ</Link></li>
+              <li><Link to="/" className="hover:text-white">Lô đề</Link></li>
+              <li><Link to="/" className="hover:text-white">Games bài</Link></li>
+              <li><Link to="/" className="hover:text-white">Game nhanh</Link></li>
+              <li><Link to="/" className="hover:text-white">Bắn cá</Link></li>
+              <li><Link to="/" className="hover:text-white">Quay số</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4">VỀ CHÚNG TÔI</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li><Link to="/" className="hover:text-white">Giới thiệu KBET</Link></li>
+              <li><Link to="/" className="hover:text-white">Điều kiện - Điều khoản</Link></li>
+              <li><Link to="/" className="hover:text-white">Bảo mật</Link></li>
+              <li><Link to="/" className="hover:text-white">Quy định chung</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4">HỖ TRỢ 24/7</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li><Link to="/" className="hover:text-white">Trực tuyến 24/7</Link></li>
+              <li><Link to="/" className="hover:text-white">Telegram CSKH</Link></li>
+              <li><Link to="/" className="hover:text-white">Hướng dẫn đăng ký</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4">THÔNG TIN</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li><Link to="/" className="hover:text-white">Khuyến mãi /Sự kiện</Link></li>
+              <li><Link to="/" className="hover:text-white">Tin tức</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Payment methods */}
+        <div className="border-t border-gray-800 py-6">
+          <div className="flex flex-wrap justify-center space-x-6">
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>💳</span> CodePay
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>👥</span> P2P
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>🪙</span> Tiền ảo
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>📱</span> Momo
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>📱</span> Viettel Money
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>💰</span> Thẻ cào
+            </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 text-center text-gray-400 text-sm">
-          <p>© {currentYear} KBET. All Rights Reserved.</p>
-          <p className="mt-2">
-            Gambling can be addictive. Please play responsibly.
-          </p>
+        <div className="mt-8 text-center text-gray-500 text-xs flex flex-wrap justify-between items-center">
+          <div className="flex items-center">
+            <span className="mr-2">💬</span> 
+            <p>Copyright © {currentYear} Powered By KBET All Rights Reserved.</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <span className="text-red-500 bg-white px-1 rounded">18+</span>
+            <span>🛡️</span>
+            <span>MGA</span>
+          </div>
         </div>
       </div>
     </footer>
