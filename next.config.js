@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['img.gamezop.com', 'placekitten.com'], // Add domains for images
+    domains: ['img.gamezop.com', 'placekitten.com', 'static.gamezop.com'], // Add domains for images
   },
 }
 

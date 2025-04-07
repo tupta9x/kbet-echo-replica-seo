@@ -2,26 +2,48 @@
 import { Game } from '@/types/types';
 
 export interface GamezopGame {
-  id: string;
+  code: string;
+  url: string;
   name: {
     en: string;
     [key: string]: string;
   };
+  isPortrait: boolean;
   description: {
     en: string;
     [key: string]: string;
   };
-  categories: string[];
-  assets: {
-    cover: string;
-    thumbnail: string;
+  gamePreviews?: {
+    en: string;
     [key: string]: string;
   };
-  url: string;
-  vendor: string;
-  popularity: number;
-  isNew: boolean;
-  [key: string]: any;
+  assets: {
+    cover: string;
+    brick: string;
+    thumb: string;
+    wall: string;
+    square: string;
+    screens: string[];
+    coverTiny: string;
+    brickTiny: string;
+  };
+  categories: {
+    en: string[];
+    [key: string]: string[];
+  };
+  tags: {
+    en: string[];
+    [key: string]: string[];
+  };
+  width: number;
+  height: number;
+  colorMuted: string;
+  colorVibrant: string;
+  privateAllowed: boolean;
+  rating?: number;
+  numberOfRatings?: number;
+  gamePlays?: number;
+  hasIntegratedAds?: boolean;
 }
 
 export interface GamezopResponse {
@@ -33,7 +55,7 @@ export interface GamezopResponse {
 // Fetch games from Gamezop API
 export const fetchGamezopGames = async (): Promise<Game[]> => {
   try {
-    const response = await fetch('https://pub.gamezop.com/v3/games?id=10431');
+    const response = await fetch('/api/games');
     const data: GamezopResponse = await response.json();
     
     if (!data.success || !data.games) {
@@ -42,15 +64,15 @@ export const fetchGamezopGames = async (): Promise<Game[]> => {
     
     // Transform Gamezop data to our Game format
     return data.games.map(gamezopGame => ({
-      id: gamezopGame.id,
+      id: gamezopGame.code,
       title: gamezopGame.name.en,
       description: gamezopGame.description.en,
-      imageUrl: gamezopGame.assets.cover || gamezopGame.assets.thumbnail,
-      categoryIds: gamezopGame.categories,
-      featured: gamezopGame.popularity > 0.7,
-      new: gamezopGame.isNew,
-      popular: gamezopGame.popularity > 0.8,
-      provider: gamezopGame.vendor || 'Gamezop',
+      imageUrl: gamezopGame.assets.cover || gamezopGame.assets.thumb,
+      categoryIds: gamezopGame.categories.en,
+      featured: !!gamezopGame.gamePlays && gamezopGame.gamePlays > 10000000,
+      new: false, // This would need to be determined by other logic
+      popular: !!gamezopGame.rating && gamezopGame.rating > 3.5,
+      provider: 'Gamezop',
       rtp: 96 + Math.random() * 3, // Random RTP between 96-99% for demonstration
     }));
   } catch (error) {

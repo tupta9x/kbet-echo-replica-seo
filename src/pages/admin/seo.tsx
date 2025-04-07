@@ -1,10 +1,8 @@
 
-import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import SEOManagement from '@/components/dashboard/SEOManagement';
 import AdminLayout from '@/components/dashboard/AdminLayout';
-import { prisma } from '@/lib/prisma';
 
 // Server-side authentication check
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -28,14 +26,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const AdminSEO = () => {
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>SEO Management | KBET Admin</title>
         <meta name="description" content="Manage SEO settings for KBET casino platform - optimize meta tags and page descriptions" />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <SEOManagement />
-    </AdminLayout>
+    </>
   );
 };
 

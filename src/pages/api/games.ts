@@ -1,6 +1,53 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 
+interface GamezopGame {
+  code: string;
+  url: string;
+  name: {
+    en: string;
+    [key: string]: string;
+  };
+  isPortrait: boolean;
+  description: {
+    en: string;
+    [key: string]: string;
+  };
+  assets: {
+    cover: string;
+    brick: string;
+    thumb: string;
+    wall: string;
+    square: string;
+    screens: string[];
+    coverTiny: string;
+    brickTiny: string;
+    [key: string]: any;
+  };
+  categories: {
+    en: string[];
+    [key: string]: string[];
+  };
+  tags: {
+    en: string[];
+    [key: string]: string[];
+  };
+  width: number;
+  height: number;
+  colorMuted: string;
+  colorVibrant: string;
+  privateAllowed: boolean;
+  rating?: number;
+  numberOfRatings?: number;
+  gamePlays?: number;
+  hasIntegratedAds?: boolean;
+}
+
+interface GamezopResponse {
+  games: GamezopGame[];
+  success: boolean;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
