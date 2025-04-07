@@ -1,40 +1,114 @@
 
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Play } from 'lucide-react'; 
+import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+
+interface Game {
+  id: string;
+  title: string;
+  imageUrl: string;
+  preview?: string;
+}
 
 export const LiveStreamSection = () => {
-  const liveStreams = [
-    { id: 1, viewers: 940 },
-    { id: 2, viewers: 817 },
-    { id: 3, viewers: 879 }
-  ];
+  const [games, setGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await fetch('/api/games');
+        const data = await response.json();
+        
+        if (data.success && data.games) {
+          // Filter for games that have previews
+          const gamesWithPreviews = data.games
+            .filter((game: any) => game.gamePreviews && game.gamePreviews.en)
+            .slice(0, 3)
+            .map((game: any) => ({
+              id: game.code,
+              title: game.name.en,
+              imageUrl: game.assets.cover || game.assets.thumb,
+              preview: game.gamePreviews.en
+            }));
+          
+          setGames(gamesWithPreviews);
+        }
+      } catch (error) {
+        console.error('Error fetching games with previews:', error);
+        // Fallback data if API fails
+        setGames([
+          { id: '1', title: 'Game Preview 1', imageUrl: 'https://static.gamezop.com/BkzmafyPqJm/cover.jpg', preview: 'https://youtu.be/GOJEoqphJqo' },
+          { id: '2', title: 'Game Preview 2', imageUrl: 'https://static.gamezop.com/BkzmafyPqJm/cover.jpg', preview: 'https://youtu.be/GOJEoqphJqo' },
+          { id: '3', title: 'Game Preview 3', imageUrl: 'https://static.gamezop.com/BkzmafyPqJm/cover.jpg', preview: 'https://youtu.be/GOJEoqphJqo' }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGames();
+  }, []);
+
+  const handlePlayClick = (title: string) => {
+    toast({
+      title: "Video Preview",
+      description: `Opening preview for ${title}...`,
+    });
+  };
 
   return (
     <section className="py-8 bg-[#0f0f1b]">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white">Live Stream</h2>
-          <Link to="/live-streams" className="text-white/80 text-sm hover:text-white flex items-center">
+          <h2 className="text-2xl font-bold text-white">Game Previews</h2>
+          <Link to="/game-previews" className="text-white/80 text-sm hover:text-white flex items-center">
             View All <span className="ml-1">›</span>
           </Link>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {liveStreams.map((stream) => (
-            <div key={stream.id} className="relative rounded-lg overflow-hidden">
-              <div className="w-full h-48 bg-purple-900/30">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-5xl text-purple-900/50">🎬</div>
+          {loading ? (
+            [...Array(3)].map((_, index) => (
+              <div key={index} className="relative rounded-lg overflow-hidden bg-purple-900/30 animate-pulse h-48"></div>
+            ))
+          ) : (
+            games.map((game) => (
+              <div key={game.id} className="relative rounded-lg overflow-hidden group">
+                <img 
+                  src={game.imageUrl} 
+                  alt={game.title}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <Button 
+                        onClick={() => handlePlayClick(game.title)}
+                        className="bg-red-600 hover:bg-red-700 text-white rounded-full p-3"
+                      >
+                        <Play className="w-6 h-6" />
+                      </Button>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="bg-black text-white border-gray-800">
+                      <p>Click to watch the preview of {game.title}</p>
+                    </HoverCardContent>
+                  </HoverCard>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                  <h3 className="text-white font-medium">{game.title}</h3>
+                </div>
+                <div className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded flex items-center">
+                  <span className="w-2 h-2 bg-white rounded-full mr-1"></span>
+                  PREVIEW
                 </div>
               </div>
-              <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded flex items-center">
-                <span className="w-2 h-2 bg-white rounded-full mr-1"></span>
-                LIVE
-              </div>
-              <div className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-                👁️ {stream.viewers}
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Mini Games floating button */}

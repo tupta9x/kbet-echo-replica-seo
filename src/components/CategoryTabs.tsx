@@ -1,8 +1,7 @@
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { categories } from '@/data/mockData';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { Category } from '@/types/types';
 
 interface CategoryTabsProps {
   activeCategory: string;
@@ -11,11 +10,49 @@ interface CategoryTabsProps {
 
 export const CategoryTabs = ({ activeCategory, onCategoryChange }: CategoryTabsProps) => {
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories');
+        const data = await response.json();
+        
+        if (data.categories) {
+          setCategories(data.categories);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        // Fallback to empty array or mock data if needed
+        setCategories([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   
   // Display featured categories first, and limit to 5 if not showing all
   const displayCategories = showAllCategories 
     ? categories 
-    : categories.filter(cat => cat.featured);
+    : categories.filter(cat => cat.featured).slice(0, 5);
+
+  if (loading) {
+    return (
+      <div className="mb-8">
+        <div className="flex flex-wrap gap-2 justify-center mb-2">
+          {[...Array(6)].map((_, index) => (
+            <div 
+              key={index} 
+              className="w-28 h-10 rounded-full bg-kbet-darker animate-pulse"
+            ></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-8">
@@ -47,7 +84,7 @@ export const CategoryTabs = ({ activeCategory, onCategoryChange }: CategoryTabsP
           </button>
         ))}
         
-        {categories.length > displayCategories.length && (
+        {categories.length > 5 && (
           <button
             onClick={() => setShowAllCategories(!showAllCategories)}
             className="px-4 py-2 rounded-full bg-kbet-darker text-white hover:bg-kbet-secondary/30 transition-all duration-200"

@@ -1,41 +1,39 @@
 
-import { prisma } from '@/lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { fetchGamezopGames } from '@/services/gamezopService';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Set response header
   res.setHeader('Content-Type', 'text/xml');
   
-  // Get all games (limited to a reasonable number)
-  const games = await prisma.game.findMany({
-    take: 1000,
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-  });
-
-  // Generate XML
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  try {
+    // Fetch all games from the API
+    const games = await fetchGamezopGames();
+    
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kbet.com';
+    
+    // Build sitemap XML
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
-        <loc>https://yourdomain.com/</loc>
+        <loc>${baseUrl}/</loc>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
       </url>
-      ${games.map((game) => `
-        <url>
-          <loc>https://yourdomain.com/game/${game.id}</loc>
-          <lastmod>${new Date(game.updatedAt).toISOString()}</lastmod>
-          <changefreq>weekly</changefreq>
-          <priority>0.8</priority>
-        </url>
+      ${games.map(game => `
+      <url>
+        <loc>${baseUrl}/game/${game.id}</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+      </url>
       `).join('')}
     </urlset>`;
-
-  // Send the XML response
-  res.status(200).send(xml);
+    
+    res.status(200).send(sitemap);
+  } catch (error) {
+    console.error('Error generating sitemap:', error);
+    res.status(500).send('Error generating sitemap');
+  }
 }
