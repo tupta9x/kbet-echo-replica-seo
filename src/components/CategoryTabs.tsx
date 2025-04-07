@@ -17,6 +17,11 @@ export const CategoryTabs = ({ activeCategory, onCategoryChange }: CategoryTabsP
     const fetchCategories = async () => {
       try {
         const response = await fetch('/api/categories');
+        
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        
         const data = await response.json();
         
         if (data.categories) {
