@@ -1,16 +1,20 @@
 
-import { Outlet } from 'react-router-dom';
+import { ReactNode } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-export const Layout = () => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col bg-[#0f0f1b] text-white">
       <Navbar />
       <ScrollArea className="flex-grow">
         <main className="flex-grow">
-          <Outlet />
+          {children}
         </main>
       </ScrollArea>
       <Footer />
