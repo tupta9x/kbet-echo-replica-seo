@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
@@ -10,9 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { Game } from '@/types/types';
 import { useToast } from "@/components/ui/use-toast";
 import Layout from '@/components/Layout';
-import { prisma } from '@/lib/prisma';
+import { fetchGamezopGames, fetchGamzeopGameById, GamezopResponse } from '@/services/gamezopService';
 
-// Mock data (in production, this would come from an API or database)
+// Mock data (for fallback when API fails)
 const mockGames: Game[] = [
   {
     id: "baccarat-a",
@@ -388,45 +389,77 @@ export default function GameDetail({ game, relatedGames }: GameDetailProps) {
 
 // Generate static paths for all games
 export const getStaticPaths: GetStaticPaths = async () => {
-  // In production, fetch from your database
-  // For now, use mock data
-  const paths = mockGames.map((game) => ({
-    params: { gameId: game.id },
-  }));
+  try {
+    const games = await fetchGamezopGames();
+    
+    const paths = games.map((game) => ({
+      params: { gameId: game.id },
+    }));
 
-  return {
-    paths,
-    // Fallback true enables SSR for paths not generated at build time
-    fallback: true,
-  };
+    return {
+      paths,
+      // Fallback true enables SSR for paths not generated at build time
+      fallback: true,
+    };
+  } catch (error) {
+    console.error("Error generating game paths:", error);
+    return {
+      paths: [],
+      fallback: true,
+    };
+  }
 };
 
 // Get static props for each game
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const gameId = params?.gameId as string;
   
-  // In production, fetch from your database
-  // For now, use mock data
-  const game = mockGames.find(g => g.id === gameId) || null;
-  
-  let relatedGames: Game[] = [];
-  
-  if (game) {
-    // Find related games (same category, excluding current game)
-    relatedGames = mockGames
-      .filter(g => 
-        g.id !== gameId && 
-        g.categoryIds.some(cat => game.categoryIds.includes(cat))
-      )
-      .slice(0, 3);
-  }
+  try {
+    const game = await fetchGamzeopGameById(gameId);
+    const allGames = await fetchGamezopGames();
+    
+    let relatedGames: Game[] = [];
+    
+    if (game) {
+      // Find related games (same category, excluding current game)
+      relatedGames = allGames
+        .filter(g => 
+          g.id !== gameId && 
+          g.categoryIds.some(cat => game.categoryIds.includes(cat))
+        )
+        .slice(0, 3);
+    }
 
-  return {
-    props: {
-      game,
-      relatedGames,
-    },
-    // Revalidate every 60 seconds
-    revalidate: 60,
-  };
+    return {
+      props: {
+        game,
+        relatedGames,
+      },
+      // Revalidate every 60 seconds
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.error(`Error fetching game with ID ${gameId}:`, error);
+    
+    // Fallback to mock data if API fails
+    const game = mockGames.find(g => g.id === gameId) || null;
+    let relatedGames: Game[] = [];
+    
+    if (game) {
+      relatedGames = mockGames
+        .filter(g => 
+          g.id !== gameId && 
+          g.categoryIds.some(cat => game.categoryIds.includes(cat))
+        )
+        .slice(0, 3);
+    }
+    
+    return {
+      props: {
+        game,
+        relatedGames,
+      },
+      revalidate: 60,
+    };
+  }
 };
